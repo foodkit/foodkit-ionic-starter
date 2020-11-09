@@ -1,17 +1,21 @@
-import MenuItem from './menuItem';
+import MenuItem from "./menuItem";
 
 export default class Menu {
-    constructor(protected items: Array<MenuItem> = []) {}
+  constructor(protected items: Array<MenuItem> = []) {}
 
-    public addItem(menuItem: MenuItem): Menu {
-        this.items.push(menuItem);
+  public addItem(menuItem: MenuItem): Menu {
+    this.items.push(menuItem);
 
-        return this;
-    }
+    return this;
+  }
 
-    public setItems(items: Array<MenuItem>): Menu {
-        this.items = items;
+  public setItems(items: Array<MenuItem>): Menu {
+    this.items = items;
 
-        return this;
-    }
+    return this;
+  }
+
+  public getItems(): Array<MenuItem> {
+    return this.items;
+  }
 }

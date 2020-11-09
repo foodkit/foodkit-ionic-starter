@@ -11,18 +11,32 @@
           <ion-title size="large">Menu</ion-title>
         </ion-toolbar>
       </ion-header>
-    
-      <MenuList/>
+
+      <MenuList />
     </ion-content>
   </ion-page>
 </template>
 
 <script lang="ts">
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/vue';
-import MenuList from '@/components/MenuList.vue';
+  import {
+    IonPage,
+    IonHeader,
+    IonToolbar,
+    IonTitle,
+    IonContent,
+  } from "@ionic/vue";
 
-export default  {
-  name: 'MenuTab',
-  components: { MenuList, IonHeader, IonToolbar, IonTitle, IonContent, IonPage }
-}
+  import MenuList from "@/components/MenuList.vue";
+
+  export default {
+    name: "MenuTab",
+    components: {
+      IonHeader,
+      IonToolbar,
+      IonTitle,
+      IonContent,
+      IonPage,
+      MenuList,
+    },
+  };
 </script>
