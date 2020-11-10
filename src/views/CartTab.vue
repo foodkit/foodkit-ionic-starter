@@ -2,17 +2,17 @@
   <ion-page>
     <ion-header>
       <ion-toolbar>
-        <ion-title>Menu</ion-title>
+        <ion-title>Cart</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
       <ion-header collapse="condense">
         <ion-toolbar>
-          <ion-title size="large">Menu</ion-title>
+          <ion-title size="large">Cart</ion-title>
         </ion-toolbar>
       </ion-header>
 
-      <MenuList />
+      <Cart />
     </ion-content>
   </ion-page>
 </template>
@@ -27,17 +27,17 @@
     IonContent,
   } from "@ionic/vue";
 
-  import MenuList from "@/components/MenuList.vue";
+  import Cart from "@/components/Cart.vue";
 
   export default defineComponent({
-    name: "MenuTab",
+    name: "CartTab",
     components: {
       IonHeader,
       IonToolbar,
       IonTitle,
       IonContent,
       IonPage,
-      MenuList,
+      Cart,
     },
   });
 </script>

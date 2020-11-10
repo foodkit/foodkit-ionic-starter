@@ -6,14 +6,17 @@
           <ion-card>
             <img :src="product.images[0].src" v-if="product.images.length" />
             <ion-card-header>
-              <ion-card-subtitle>{{ product.price }}</ion-card-subtitle>
+              <ion-card-subtitle>{{ product.formatPrice() }}</ion-card-subtitle>
               <ion-card-title>{{ product.name }}</ion-card-title>
             </ion-card-header>
 
             <ion-card-content>
               {{ product.description }}
               <div>
-                <ion-button>Add to cart</ion-button>
+                <ion-button fill="clear" @click="addToCart(product)">
+                  <ion-icon :icon="cartOutline" />
+                  <span style="margin-left: 10px">Add to cart</span>
+                </ion-button>
               </div>
             </ion-card-content>
           </ion-card>
@@ -23,7 +26,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
   import { defineComponent } from "vue";
   import {
     IonGrid,
@@ -35,11 +38,15 @@
     IonCardSubtitle,
     IonCardTitle,
     IonButton,
+    IonIcon,
   } from "@ionic/vue";
+  import { cartOutline } from "ionicons/icons";
   import AuthService from "@/services/authService";
   import MenuService from "@/services/menuService";
   import ApiClient from "@/services/apiClient";
   import Menu from "@/models/menu";
+  import MenuItem from "@/models/menuItem";
+  import CartService from "@/services/cartService";
 
   export default defineComponent({
     name: "MenuList",
@@ -53,16 +60,28 @@
       IonCardSubtitle,
       IonCardTitle,
       IonButton,
+      IonIcon,
+    },
+    setup() {
+      return {
+        cartOutline,
+      };
     },
     data() {
       return {
         authService: new AuthService(new ApiClient(), localStorage),
         menuService: new MenuService(new ApiClient()),
+        cartService: new CartService(),
         menu: new Menu(),
       };
     },
     async mounted() {
       this.menu = await this.menuService.get();
+    },
+    methods: {
+      addToCart(menuItem: MenuItem) {
+        this.cartService.add(menuItem, 1);
+      },
     },
   });
 </script>

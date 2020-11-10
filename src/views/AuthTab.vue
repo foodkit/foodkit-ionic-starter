@@ -14,6 +14,9 @@
 
       <div v-if="authService.isLoggedIn()">
         <span>You are logged in</span>
+        <div>
+          <ion-button @click="logout()">Logout</ion-button>
+        </div>
       </div>
       <div v-else>
         <ion-button @click="showLoginModal()">Login</ion-button>
@@ -24,6 +27,7 @@
 </template>
 
 <script lang="ts">
+  import { defineComponent } from "vue";
   import {
     IonPage,
     IonHeader,
@@ -33,12 +37,12 @@
     IonButton,
     modalController,
   } from "@ionic/vue";
-  import AuthService from "@/services/authService";
-  import ApiClient from "@/services/apiClient";
   import LoginModal from "@/components/modals/LoginModal.vue";
   import RegistrationModal from "@/components/modals/RegistrationModal.vue";
+  import AuthService from "@/services/authService";
+  import ApiClient from "@/services/apiClient";
 
-  export default {
+  export default defineComponent({
     name: "AuthTab",
     components: {
       IonHeader,
@@ -66,8 +70,11 @@
         });
         return modal.present();
       },
+      logout() {
+        this.authService.logout();
+      },
     },
-  };
+  });
 </script>
 
 <style scoped>

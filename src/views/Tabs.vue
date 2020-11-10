@@ -7,8 +7,13 @@
           <ion-label>Menu</ion-label>
         </ion-tab-button>
 
+        <ion-tab-button tab="cartTab" href="/cart">
+          <ion-icon :icon="cartOutline" />
+          <ion-label>Cart</ion-label>
+        </ion-tab-button>
+
         <ion-tab-button tab="authTab" href="/auth">
-          <ion-icon :icon="person" />
+          <ion-icon :icon="personOutline" />
           <ion-label>Auth</ion-label>
         </ion-tab-button>
       </ion-tab-bar>
@@ -25,7 +30,7 @@
     IonIcon,
     IonPage,
   } from "@ionic/vue";
-  import { gridOutline, person } from "ionicons/icons";
+  import { gridOutline, cartOutline, personOutline } from "ionicons/icons";
 
   export default {
     name: "Tabs",
@@ -40,7 +45,8 @@
     setup() {
       return {
         gridOutline,
-        person,
+        cartOutline,
+        personOutline,
       };
     },
   };

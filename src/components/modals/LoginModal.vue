@@ -21,7 +21,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
   import {
     IonContent,
     IonHeader,
@@ -69,7 +69,7 @@
         if (loggedIn) {
           modalController.dismiss();
           const toast = await toastController.create({
-            message: "Logged in!",
+            message: "Logged in",
             duration: 2000,
           });
           await toast.present();

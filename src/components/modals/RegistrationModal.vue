@@ -33,7 +33,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
   import {
     IonContent,
     IonHeader,
@@ -87,13 +87,13 @@
         if (isRegistered) {
           modalController.dismiss();
           const toast = await toastController.create({
-            message: "Registration successful!",
+            message: "Registration successful",
             duration: 2000,
           });
           await toast.present();
         } else {
           const toast = await toastController.create({
-            message: "Validation error",
+            message: "Error occurred",
             duration: 2000,
           });
           await toast.present();

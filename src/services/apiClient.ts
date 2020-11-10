@@ -1,14 +1,14 @@
 import Axios, { AxiosInstance, AxiosRequestConfig } from "axios";
 import { AxiosResponse } from "axios";
+import config from "@/config";
 
 export default class ApiClient {
   httpClient: AxiosInstance;
   token?: string;
-  tenantId = 4; //TODO: replace with your tenant ID
 
   constructor() {
     this.httpClient = Axios.create({
-      baseURL: "http://localhost:9999/api", //TODO: replace with staging/production url
+      baseURL: config.apiUrl,
     });
   }
 
@@ -17,10 +17,6 @@ export default class ApiClient {
     this.setupInterceptor(token);
 
     return this;
-  }
-
-  public getTenantId(): number {
-    return this.tenantId;
   }
 
   protected setupInterceptor(token?: string): void {

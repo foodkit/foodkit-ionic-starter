@@ -1,13 +1,14 @@
 import Menu from "@/models/menu";
 import MenuItem from "@/models/menuItem";
 import ApiClient from "./apiClient";
+import config from "@/config";
 
 export default class MenuService {
   constructor(protected apiClient: ApiClient) {}
 
   public async get(): Promise<Menu> {
     const response = await this.apiClient.get(
-      `/v5/storefront/content/tenants/${this.apiClient.getTenantId()}/menu.json`
+      `/v5/storefront/content/tenants/${config.tenantId}/menu.json`
     );
 
     const menu = new Menu();

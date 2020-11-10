@@ -1,30 +1,35 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import ApiClient from "./apiClient";
+import config from "@/config";
 
 export default class AuthService {
-  constructor(protected apiClient: ApiClient, protected storage: Storage) {}
+  public loggedIn = false;
+
+  constructor(protected apiClient: ApiClient, protected storage: Storage) {
+    this.loggedIn = this.isTokenStored();
+  }
 
   public isLoggedIn(): boolean {
-    return this.storage.getItem("foodkit:auth.state") !== null;
+    return this.loggedIn;
   }
 
   public async login(username: string, password: string): Promise<boolean> {
     try {
       const response = await this.apiClient.post("/v1/oauth/access_token", {
         grant_type: "customer",
-        client_id: "store-front-web-snp", //TODO: set your client id from admin panel
-        client_secret: "ua9CdVq6n8tMpbqgPMrAO8OfjhEYoQJBvy", //TODO: set your client secret from admin panel
+        client_id: config.clientId,
+        client_secret: config.clientSecret,
         idp: "password",
         username: username,
         password: password,
       });
 
-      this.setAuthState({
-        accessToken: response.data.access_token,
-      });
+      this.loggedIn = true;
+      this.setAuthState(response.data.access_token);
 
       return true;
     } catch (error) {
+      this.loggedIn = false;
       return false;
     }
   }
@@ -37,17 +42,17 @@ export default class AuthService {
     password: string
   ): Promise<boolean> {
     try {
-      const response = await this.apiClient.post("/v1/storefront/customers", {
+      this.apiClient.setToken(config.guestToken);
+
+      await this.apiClient.post("/v1/storefront/customers", {
         email,
         phone_number: phoneNumber,
         name: `${firstName} ${lastName}`,
         first_name: firstName,
         last_name: lastName,
         password,
-        tenant_id: this.apiClient.getTenantId(),
+        tenant_id: config.tenantId,
       });
-
-      console.log(response.data);
 
       return true;
     } catch (error) {
@@ -57,18 +62,23 @@ export default class AuthService {
 
   public logout(): AuthService {
     this.clearAuthState();
+    this.loggedIn = false;
 
     return this;
+  }
+
+  protected isTokenStored(): boolean {
+    return this.storage.getItem("foodkit:access_token") !== null;
   }
 
   protected clearAuthState(): AuthService {
-    this.storage.removeItem("foodkit:auth.state");
+    this.storage.removeItem("foodkit:access_token");
 
     return this;
   }
 
-  protected setAuthState(state: any): AuthService {
-    this.storage.setItem("foodkit:auth.state", JSON.stringify(state));
+  protected setAuthState(accessToken: string): AuthService {
+    this.storage.setItem("foodkit:access_token", accessToken);
 
     return this;
   }
