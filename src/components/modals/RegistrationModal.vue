@@ -46,9 +46,8 @@
     toastController,
     modalController,
   } from "@ionic/vue";
-  import { defineComponent } from "vue";
+  import { defineComponent, inject, ref } from "vue";
   import AuthService from "@/services/authService";
-  import ApiClient from "@/services/apiClient";
 
   export default defineComponent({
     name: "RegistrationModal",
@@ -62,26 +61,24 @@
       IonInput,
       IonButton,
     },
-    data() {
-      return {
-        form: {
-          email: "",
-          phoneNumber: "",
-          firstName: "",
-          lastName: "",
-          password: "",
-        },
-        authService: new AuthService(new ApiClient(), localStorage),
-      };
-    },
-    methods: {
-      async register() {
-        const isRegistered = await this.authService.register(
-          this.form.email,
-          this.form.phoneNumber,
-          this.form.firstName,
-          this.form.lastName,
-          this.form.password
+    setup() {
+      const authService = inject<AuthService>("authService");
+
+      const form = ref({
+        email: "",
+        phoneNumber: "",
+        firstName: "",
+        lastName: "",
+        password: "",
+      });
+
+      const register = async () => {
+        const isRegistered = await authService?.register(
+          form.value.email,
+          form.value.phoneNumber,
+          form.value.firstName,
+          form.value.lastName,
+          form.value.password
         );
 
         if (isRegistered) {
@@ -98,7 +95,13 @@
           });
           await toast.present();
         }
-      },
+      };
+
+      return {
+        authService,
+        form,
+        register,
+      };
     },
   });
 </script>

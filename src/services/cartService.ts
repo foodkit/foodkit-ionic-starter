@@ -1,5 +1,6 @@
 import CartItem from "@/models/cartItem";
 import MenuItem from "@/models/menuItem";
+import currencyFormat from "@/helpers/currencyFormat";
 
 export default class CartService {
   protected items: Array<CartItem> = [];
@@ -26,23 +27,30 @@ export default class CartService {
     return this;
   }
 
-  public remove(menuItem: MenuItem): CartService {
+  public remove(cartItemToRemove: CartItem): CartService {
     const index = this.items.findIndex((cartItem: CartItem) => {
-      return cartItem.menuItem.id === menuItem.id;
+      return cartItem.menuItem.id === cartItemToRemove.menuItem.id;
     });
+
     if (index !== -1) {
       this.items.splice(index, 1);
     }
     return this;
   }
 
-  public total(): number {
+  public clear(): CartService {
+    this.items = [];
+
+    return this;
+  }
+
+  public total(): string {
     let total = 0;
 
     this.items.forEach((cartItem) => {
       total += cartItem.menuItem.price || 0 * cartItem.quantity;
     });
 
-    return total;
+    return currencyFormat(total);
   }
 }

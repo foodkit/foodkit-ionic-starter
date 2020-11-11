@@ -10,6 +10,7 @@
         <ion-tab-button tab="cartTab" href="/cart">
           <ion-icon :icon="cartOutline" />
           <ion-label>Cart</ion-label>
+          <ion-badge>{{ cartService.getItems().length }}</ion-badge>
         </ion-tab-button>
 
         <ion-tab-button tab="authTab" href="/auth">
@@ -29,8 +30,11 @@
     IonLabel,
     IonIcon,
     IonPage,
+    IonBadge,
   } from "@ionic/vue";
   import { gridOutline, cartOutline, personOutline } from "ionicons/icons";
+  import { inject } from "vue";
+  import CartService from "@/services/cartService";
 
   export default {
     name: "Tabs",
@@ -41,9 +45,13 @@
       IonTabButton,
       IonIcon,
       IonPage,
+      IonBadge,
     },
     setup() {
+      const cartService = inject<CartService>("cartService");
+
       return {
+        cartService,
         gridOutline,
         cartOutline,
         personOutline,

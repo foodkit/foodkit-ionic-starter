@@ -32,21 +32,26 @@
         </ion-row>
       </ion-grid>
 
-      <div>Total: {{ cartService.total() }}</div>
-      <div>
-        <ion-button>
-          Checkout
-        </ion-button>
-      </div>
+      <ion-grid>
+        <ion-row>
+          <ion-col>Total: {{ cartService.total() }}</ion-col>
+          <ion-col>
+            <ion-button router-link="/checkout">
+              Checkout
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
     </div>
-    <div v-else>
-      The cart is empty
+    <div class="empty-card-wrapper" v-else>
+      <ion-img src="/assets/empty-cart.svg" />
+      <p>The cart is empty</p>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-  import { defineComponent } from "vue";
+  import { defineComponent, inject } from "vue";
   import {
     IonGrid,
     IonRow,
@@ -57,9 +62,9 @@
     IonCardSubtitle,
     IonCardTitle,
     IonButton,
+    IonImg,
   } from "@ionic/vue";
   import AuthService from "@/services/authService";
-  import ApiClient from "@/services/apiClient";
   import CartService from "@/services/cartService";
 
   export default defineComponent({
@@ -74,13 +79,26 @@
       IonCardSubtitle,
       IonCardTitle,
       IonButton,
+      IonImg,
     },
-    data() {
+    setup() {
+      const authService = inject<AuthService>("authService");
+      const cartService = inject<CartService>("cartService");
+
       return {
-        authService: new AuthService(new ApiClient(), localStorage),
-        cartService: new CartService(),
+        authService,
+        cartService,
       };
     },
-    methods: {},
   });
 </script>
+
+<style scoped>
+  .empty-card-wrapper {
+    padding: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+</style>

@@ -1,9 +1,11 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import ApiClient from "./apiClient";
 import config from "@/config";
+import User from "@/models/user";
 
 export default class AuthService {
-  public loggedIn = false;
+  protected loggedIn = false;
+  protected user?: User;
 
   constructor(protected apiClient: ApiClient, protected storage: Storage) {
     this.loggedIn = this.isTokenStored();
@@ -60,11 +62,43 @@ export default class AuthService {
     }
   }
 
+  public async currentUser(): Promise<User | null> {
+    if (this.user) {
+      return this.user;
+    }
+
+    try {
+      const token = this.getAccessToken();
+      if (!token) {
+        throw new Error(
+          "Authorization is required to retrieve current user information."
+        );
+      }
+      this.apiClient.setToken(token);
+
+      const response = await this.apiClient.get("/v1/storefront/customers/me");
+
+      const user = new User();
+      user.id = response.data.data.id;
+      user.name = response.data.data.name;
+
+      this.user = user;
+
+      return user;
+    } catch (error) {
+      return null;
+    }
+  }
+
   public logout(): AuthService {
     this.clearAuthState();
     this.loggedIn = false;
 
     return this;
+  }
+
+  public getAccessToken(): string | null {
+    return this.storage.getItem("foodkit:access_token");
   }
 
   protected isTokenStored(): boolean {

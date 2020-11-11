@@ -2,24 +2,17 @@
   <ion-page>
     <ion-header>
       <ion-toolbar>
-        <ion-title>Menu</ion-title>
+        <ion-title>Checkout</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
       <ion-header collapse="condense">
         <ion-toolbar>
-          <ion-title size="large">Menu</ion-title>
+          <ion-title size="large">Checkout</ion-title>
         </ion-toolbar>
       </ion-header>
 
-      <Suspense>
-        <template #default>
-          <MenuList />
-        </template>
-        <template #fallback>
-          Loading menu...
-        </template>
-      </Suspense>
+      <CheckoutForm />
     </ion-content>
   </ion-page>
 </template>
@@ -34,17 +27,17 @@
     IonContent,
   } from "@ionic/vue";
 
-  import MenuList from "@/components/MenuList.vue";
+  import CheckoutForm from "@/components/CheckoutForm.vue";
 
   export default defineComponent({
-    name: "MenuTab",
+    name: "CheckoutScreen",
     components: {
       IonHeader,
       IonToolbar,
       IonTitle,
       IonContent,
       IonPage,
-      MenuList,
+      CheckoutForm,
     },
   });
 </script>

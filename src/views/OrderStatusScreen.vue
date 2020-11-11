@@ -2,22 +2,22 @@
   <ion-page>
     <ion-header>
       <ion-toolbar>
-        <ion-title>Menu</ion-title>
+        <ion-title>Order Status</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
       <ion-header collapse="condense">
         <ion-toolbar>
-          <ion-title size="large">Menu</ion-title>
+          <ion-title size="large">Order Status</ion-title>
         </ion-toolbar>
       </ion-header>
 
       <Suspense>
         <template #default>
-          <MenuList />
+          <OrderStatus :order-id="id" />
         </template>
         <template #fallback>
-          Loading menu...
+          Loading order information...
         </template>
       </Suspense>
     </ion-content>
@@ -34,17 +34,24 @@
     IonContent,
   } from "@ionic/vue";
 
-  import MenuList from "@/components/MenuList.vue";
+  import OrderStatus from "@/components/OrderStatus.vue";
+  import { useRoute } from "vue-router";
 
   export default defineComponent({
-    name: "MenuTab",
+    name: "OrderStatusScreen",
     components: {
       IonHeader,
       IonToolbar,
       IonTitle,
       IonContent,
       IonPage,
-      MenuList,
+      OrderStatus,
+    },
+    setup() {
+      const route = useRoute();
+      const id: number = (route.params.id as unknown) as number;
+
+      return { id };
     },
   });
 </script>

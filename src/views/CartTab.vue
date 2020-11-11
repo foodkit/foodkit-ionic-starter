@@ -41,3 +41,11 @@
     },
   });
 </script>
+
+<style scoped>
+  ion-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+</style>

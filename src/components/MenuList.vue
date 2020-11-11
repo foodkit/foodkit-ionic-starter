@@ -27,7 +27,7 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent } from "vue";
+  import { defineComponent, inject, reactive } from "vue";
   import {
     IonGrid,
     IonRow,
@@ -44,7 +44,6 @@
   import AuthService from "@/services/authService";
   import MenuService from "@/services/menuService";
   import ApiClient from "@/services/apiClient";
-  import Menu from "@/models/menu";
   import MenuItem from "@/models/menuItem";
   import CartService from "@/services/cartService";
 
@@ -62,26 +61,25 @@
       IonButton,
       IonIcon,
     },
-    setup() {
+    async setup() {
+      const authService = inject<AuthService>("authService");
+      const cartService = inject<CartService>("cartService");
+      const menuService = new MenuService(new ApiClient());
+
+      const menu = reactive(await menuService.get());
+
+      const addToCart = (menuItem: MenuItem) => {
+        cartService?.add(menuItem, 1);
+      };
+
       return {
+        authService,
+        cartService,
+        menuService,
+        menu,
+        addToCart,
         cartOutline,
       };
-    },
-    data() {
-      return {
-        authService: new AuthService(new ApiClient(), localStorage),
-        menuService: new MenuService(new ApiClient()),
-        cartService: new CartService(),
-        menu: new Menu(),
-      };
-    },
-    async mounted() {
-      this.menu = await this.menuService.get();
-    },
-    methods: {
-      addToCart(menuItem: MenuItem) {
-        this.cartService.add(menuItem, 1);
-      },
     },
   });
 </script>

@@ -23,6 +23,14 @@ const routes: Array<RouteRecordRaw> = [
         path: "auth",
         component: () => import("@/views/AuthTab.vue"),
       },
+      {
+        path: "checkout",
+        component: () => import("@/views/CheckoutScreen.vue"),
+      },
+      {
+        path: "orders/:id/status",
+        component: () => import("@/views/OrderStatusScreen.vue"),
+      },
     ],
   },
 ];

@@ -34,9 +34,8 @@
     toastController,
     modalController,
   } from "@ionic/vue";
-  import { defineComponent } from "vue";
+  import { defineComponent, inject, ref } from "vue";
   import AuthService from "@/services/authService";
-  import ApiClient from "@/services/apiClient";
 
   export default defineComponent({
     name: "LoginModal",
@@ -50,20 +49,18 @@
       IonInput,
       IonButton,
     },
-    data() {
-      return {
-        form: {
-          username: "",
-          password: "",
-        },
-        authService: new AuthService(new ApiClient(), localStorage),
-      };
-    },
-    methods: {
-      async login() {
-        const loggedIn = await this.authService.login(
-          this.form.username,
-          this.form.password
+    setup() {
+      const authService = inject<AuthService>("authService");
+
+      const form = ref({
+        username: "",
+        password: "",
+      });
+
+      const login = async () => {
+        const loggedIn = await authService?.login(
+          form.value.username,
+          form.value.password
         );
 
         if (loggedIn) {
@@ -80,7 +77,13 @@
           });
           await toast.present();
         }
-      },
+      };
+
+      return {
+        authService,
+        form,
+        login,
+      };
     },
   });
 </script>
