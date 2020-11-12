@@ -38,6 +38,7 @@
     IonTitle,
     IonContent,
     IonButton,
+    IonImg,
     modalController,
   } from "@ionic/vue";
   import LoginModal from "@/components/modals/LoginModal.vue";
@@ -53,6 +54,7 @@
       IonContent,
       IonButton,
       IonPage,
+      IonImg,
     },
     setup() {
       const authService = inject<AuthService>("authService");
@@ -86,13 +88,6 @@
 </script>
 
 <style scoped>
-  .wrapper {
-    margin: 50px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
   .logout-btn {
     margin-top: 5px;
     margin-bottom: 5px;

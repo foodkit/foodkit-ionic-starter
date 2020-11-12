@@ -22,7 +22,11 @@
               <ion-card-content>
                 {{ cartItem.menuItem.description }}
                 <div>
-                  <ion-button @click="cartService.remove(cartItem)">
+                  <ion-button
+                    fill="outline"
+                    class="action-btn"
+                    @click="removeFromCart(cartItem)"
+                  >
                     Remove from cart
                   </ion-button>
                 </div>
@@ -32,18 +36,14 @@
         </ion-row>
       </ion-grid>
 
-      <ion-grid>
-        <ion-row>
-          <ion-col>Total: {{ cartService.total() }}</ion-col>
-          <ion-col>
-            <ion-button router-link="/checkout">
-              Checkout
-            </ion-button>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
+      <div class="total-wrapper">
+        <div>Total: {{ cartService.total() }}</div>
+        <ion-button router-link="/checkout">
+          Checkout
+        </ion-button>
+      </div>
     </div>
-    <div class="empty-card-wrapper" v-else>
+    <div class="wrapper" v-else>
       <ion-img src="/assets/empty-cart.svg" />
       <p>The cart is empty</p>
     </div>
@@ -63,9 +63,11 @@
     IonCardTitle,
     IonButton,
     IonImg,
+    toastController,
   } from "@ionic/vue";
   import AuthService from "@/services/authService";
   import CartService from "@/services/cartService";
+  import CartItem from "@/models/cartItem";
 
   export default defineComponent({
     name: "Cart",
@@ -85,20 +87,26 @@
       const authService = inject<AuthService>("authService");
       const cartService = inject<CartService>("cartService");
 
+      const removeFromCart = async (cartItem: CartItem) => {
+        cartService?.remove(cartItem);
+        const toast = await toastController.create({
+          message: `${cartItem.menuItem.name} was removed from the cart`,
+          duration: 2000,
+        });
+        await toast.present();
+      };
+
       return {
         authService,
         cartService,
+        removeFromCart,
       };
     },
   });
 </script>
 
 <style scoped>
-  .empty-card-wrapper {
-    padding: 50px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+  .total-wrapper {
+    margin: 0 15px 15px 15px;
   }
 </style>

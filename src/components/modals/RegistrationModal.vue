@@ -6,28 +6,36 @@
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
-      <form>
+      <form class="p-4">
         <ion-item>
           <ion-label>Email</ion-label>
-          <ion-input type="email" v-model="form.email"></ion-input>
+          <ion-input type="email" v-model="form.email" required></ion-input>
         </ion-item>
         <ion-item>
           <ion-label>Phone Number</ion-label>
-          <ion-input v-model="form.phoneNumber"></ion-input>
+          <ion-input v-model="form.phoneNumber" required></ion-input>
         </ion-item>
         <ion-item>
           <ion-label>First Name</ion-label>
-          <ion-input v-model="form.firstName"></ion-input>
+          <ion-input v-model="form.firstName" required></ion-input>
         </ion-item>
         <ion-item>
           <ion-label>Last Name</ion-label>
-          <ion-input v-model="form.lastName"></ion-input>
+          <ion-input v-model="form.lastName" required></ion-input>
         </ion-item>
         <ion-item>
           <ion-label>Password</ion-label>
-          <ion-input type="password" v-model="form.password"></ion-input>
+          <ion-input
+            type="password"
+            v-model="form.password"
+            required
+          ></ion-input>
         </ion-item>
-        <ion-button @click="register()">Register</ion-button>
+        <div class="text-center">
+          <ion-button class="action-btn" @click.prevent="register()"
+            >Register</ion-button
+          >
+        </div>
       </form>
     </ion-content>
   </div>

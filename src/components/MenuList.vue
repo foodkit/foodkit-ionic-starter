@@ -11,8 +11,10 @@
             </ion-card-header>
 
             <ion-card-content>
-              {{ product.description }}
-              <div>
+              <p class="product-description">
+                {{ product.description }}
+              </p>
+              <div class="text-center mt-2 add-to-cart-btn">
                 <ion-button fill="clear" @click="addToCart(product)">
                   <ion-icon :icon="cartOutline" />
                   <span style="margin-left: 10px">Add to cart</span>
@@ -39,6 +41,7 @@
     IonCardTitle,
     IonButton,
     IonIcon,
+    toastController,
   } from "@ionic/vue";
   import { cartOutline } from "ionicons/icons";
   import AuthService from "@/services/authService";
@@ -68,8 +71,13 @@
 
       const menu = reactive(await menuService.get());
 
-      const addToCart = (menuItem: MenuItem) => {
+      const addToCart = async (menuItem: MenuItem) => {
         cartService?.add(menuItem, 1);
+        const toast = await toastController.create({
+          message: `${menuItem.name} is added to the cart`,
+          duration: 2000,
+        });
+        await toast.present();
       };
 
       return {
@@ -83,3 +91,28 @@
     },
   });
 </script>
+
+<style scoped>
+  ion-card {
+    height: 100%;
+  }
+  ion-card > img {
+    object-fit: cover;
+  }
+  ion-card-title {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 0.9rem;
+  }
+  ion-card-content {
+    padding-bottom: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  ion-col {
+    margin-bottom: 10px;
+  }
+  .add-to-cart-btn {
+    justify-self: self-end;
+  }
+</style>

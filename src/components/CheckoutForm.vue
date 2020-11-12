@@ -1,9 +1,9 @@
 <template>
   <div>
-    <form>
+    <form class="wrapper">
       <ion-item>
         <ion-label>Address Line 1</ion-label>
-        <ion-input v-model="form.address1"></ion-input>
+        <ion-input v-model="form.address1" required></ion-input>
       </ion-item>
       <ion-item>
         <ion-label>Address Line 2</ion-label>
@@ -11,13 +11,19 @@
       </ion-item>
       <ion-item>
         <ion-label>Room Number</ion-label>
-        <ion-input v-model="form.roomNumber"></ion-input>
+        <ion-input v-model="form.roomNumber" required></ion-input>
       </ion-item>
       <ion-item>
         <ion-label>Floor Number</ion-label>
-        <ion-input type="number" v-model="form.floorNumber"></ion-input>
+        <ion-input
+          type="number"
+          v-model="form.floorNumber"
+          required
+        ></ion-input>
       </ion-item>
-      <ion-button @click="placeOrder()">Place order</ion-button>
+      <ion-button class="action-btn" @click.prevent="placeOrder()"
+        >Place order</ion-button
+      >
     </form>
   </div>
 </template>

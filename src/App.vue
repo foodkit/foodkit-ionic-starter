@@ -21,6 +21,10 @@
       const authService = reactive(
         new AuthService(new ApiClient(), localStorage)
       );
+      // preload user info, if authenticated
+      if (authService.getAccessToken()) {
+        authService.currentUser();
+      }
       const cartService = reactive(new CartService());
 
       provide("authService", authService);

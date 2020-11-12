@@ -21,7 +21,7 @@ export default class MenuService {
       menuItem.brandId = rawMenuItem.brand_id;
       menuItem.categoryId = rawMenuItem.category_id;
       menuItem.name = rawMenuItem.locales.en.name;
-      menuItem.description = rawMenuItem.locales.en.name;
+      menuItem.description = rawMenuItem.locales.en.description || "-";
       menuItem.price = rawMenuItem.price;
       menuItem.images = rawMenuItem.images;
 

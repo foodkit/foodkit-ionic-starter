@@ -6,16 +6,24 @@
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
-      <form>
+      <form class="p-4">
         <ion-item>
           <ion-label>Username</ion-label>
-          <ion-input v-model="form.username"></ion-input>
+          <ion-input v-model="form.username" required></ion-input>
         </ion-item>
         <ion-item>
           <ion-label>Password</ion-label>
-          <ion-input type="password" v-model="form.password"></ion-input>
+          <ion-input
+            type="password"
+            v-model="form.password"
+            required
+          ></ion-input>
         </ion-item>
-        <ion-button @click="login()">Login</ion-button>
+        <div class="text-center">
+          <ion-button class="action-btn" @click.prevent="login()"
+            >Login</ion-button
+          >
+        </div>
       </form>
     </ion-content>
   </div>

@@ -4,15 +4,12 @@ import config from "@/config";
 import User from "@/models/user";
 
 export default class AuthService {
-  protected loggedIn = false;
-  protected user?: User;
+  protected user: User | null;
 
-  constructor(protected apiClient: ApiClient, protected storage: Storage) {
-    this.loggedIn = this.isTokenStored();
-  }
+  constructor(protected apiClient: ApiClient, protected storage: Storage) {}
 
   public isLoggedIn(): boolean {
-    return this.loggedIn;
+    return !!this.user;
   }
 
   public async login(username: string, password: string): Promise<boolean> {
@@ -26,12 +23,13 @@ export default class AuthService {
         password: password,
       });
 
-      this.loggedIn = true;
       this.setAuthState(response.data.access_token);
+
+      this.user = await this.currentUser();
 
       return true;
     } catch (error) {
-      this.loggedIn = false;
+      this.user = null;
       return false;
     }
   }
@@ -92,17 +90,13 @@ export default class AuthService {
 
   public logout(): AuthService {
     this.clearAuthState();
-    this.loggedIn = false;
+    this.user = null;
 
     return this;
   }
 
   public getAccessToken(): string | null {
     return this.storage.getItem("foodkit:access_token");
-  }
-
-  protected isTokenStored(): boolean {
-    return this.storage.getItem("foodkit:access_token") !== null;
   }
 
   protected clearAuthState(): AuthService {
