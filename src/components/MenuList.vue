@@ -68,7 +68,7 @@
       const authService = inject<AuthService>("authService");
       const cartService = inject<CartService>("cartService");
       const menuService = new MenuService(new ApiClient());
-
+      
       const menu = reactive(await menuService.get());
 
       const addToCart = async (menuItem: MenuItem) => {
