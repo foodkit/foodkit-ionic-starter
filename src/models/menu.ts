@@ -1,21 +1,32 @@
 import MenuItem from "./menuItem";
 
 export default class Menu {
-  constructor(protected items: Array<MenuItem> = []) {}
+    protected timestamp: number;
+    protected items: Array<MenuItem> = [];
 
-  public addItem(menuItem: MenuItem): Menu {
-    this.items.push(menuItem);
+    public addItem(menuItem: MenuItem): Menu {
+        this.items.push(menuItem);
 
-    return this;
-  }
+        return this;
+    }
 
-  public setItems(items: Array<MenuItem>): Menu {
-    this.items = items;
+    public setTimestamp(timestamp: number): Menu {
+        this.timestamp = timestamp;
 
-    return this;
-  }
+        return this;
+    }
 
-  public getItems(): Array<MenuItem> {
-    return this.items;
-  }
+    public getTimestamp(): number {
+        return this.timestamp;
+    }
+
+    public setItems(items: Array<MenuItem>): Menu {
+        this.items = items;
+
+        return this;
+    }
+
+    public getItems(): Array<MenuItem> {
+        return this.items;
+    }
 }
