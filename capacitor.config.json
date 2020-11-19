@@ -1,6 +1,6 @@
 {
-  "appId": "io.ionic.starter",
-  "appName": "ionic-starter",
+  "appId": "io.foodkit.starter",
+  "appName": "foodkit-starter",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "dist",

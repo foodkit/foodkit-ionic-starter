@@ -1,5 +1,5 @@
 {
-  "name": "ionic-starter",
+  "name": "foodkit-ionic-starter",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -38,5 +38,5 @@
     "typescript": "~3.9.3",
     "vue-jest": "^5.0.0-0"
   },
-  "description": "An Ionic project"
+  "description": "Starter Ionic project for the Foodkit API"
 }
