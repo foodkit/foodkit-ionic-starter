@@ -74,7 +74,7 @@ export default class AuthService {
       }
       this.apiClient.setToken(token);
 
-      const response = await this.apiClient.get("/v1/storefront/customers/me");
+      const response = await this.apiClient.get(`/v5/storefront/customers/tenants/${config.tenantId}/customers`);
 
       const user = new User();
       user.id = response.data.data.id;
