@@ -4,18 +4,19 @@
       <ion-grid>
         <ion-row>
           <ion-col
-            v-for="cartItem in cartService.getItems()"
-            :key="cartItem.menuItem.id"
+              v-for="cartItem in cartService.getItems()"
+              :key="cartItem.menuItem.id"
           >
             <ion-card>
               <img
-                :src="cartItem.menuItem.images[0].src"
-                v-if="cartItem.menuItem.images.length"
+                  :src="cartItem.menuItem.images[0].src"
+                  v-if="cartItem.menuItem.images.length"
               />
               <ion-card-header>
                 <ion-card-subtitle>{{
-                  cartItem.menuItem.formatPrice()
-                }}</ion-card-subtitle>
+                    cartItem.menuItem.formatPrice()
+                  }}
+                </ion-card-subtitle>
                 <ion-card-title>{{ cartItem.menuItem.name }}</ion-card-title>
               </ion-card-header>
 
@@ -23,9 +24,9 @@
                 {{ cartItem.menuItem.description }}
                 <div>
                   <ion-button
-                    fill="outline"
-                    class="action-btn"
-                    @click="removeFromCart(cartItem)"
+                      fill="outline"
+                      class="action-btn"
+                      @click="removeFromCart(cartItem)"
                   >
                     Remove from cart
                   </ion-button>
@@ -38,21 +39,41 @@
 
       <div class="total-wrapper">
         <div>Total: {{ cartService.total() }}</div>
-        <ion-button router-link="/checkout">
+        <ion-button @click="checkout()">
           Checkout
         </ion-button>
       </div>
     </div>
     <div class="wrapper" v-else>
-      <ion-img src="/assets/empty-cart.svg" />
+      <ion-img src="/assets/empty-cart.svg"/>
       <p>The cart is empty</p>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-  import { defineComponent, inject } from "vue";
-  import {
+import {defineComponent, inject} from "vue";
+import {
+  IonGrid,
+  IonRow,
+  IonCol,
+  IonCard,
+  IonCardHeader,
+  IonCardContent,
+  IonCardSubtitle,
+  IonCardTitle,
+  IonButton,
+  IonImg,
+  toastController,
+} from "@ionic/vue";
+import AuthService from "@/services/authService";
+import CartService from "@/services/cartService";
+import CartItem from "@/models/cartItem";
+import {useRouter} from "vue-router";
+
+export default defineComponent({
+  name: "Cart",
+  components: {
     IonGrid,
     IonRow,
     IonCol,
@@ -63,50 +84,45 @@
     IonCardTitle,
     IonButton,
     IonImg,
-    toastController,
-  } from "@ionic/vue";
-  import AuthService from "@/services/authService";
-  import CartService from "@/services/cartService";
-  import CartItem from "@/models/cartItem";
+  },
+  setup() {
+    const authService = inject<AuthService>("authService");
+    const cartService = inject<CartService>("cartService");
+    const router = useRouter();
 
-  export default defineComponent({
-    name: "Cart",
-    components: {
-      IonGrid,
-      IonRow,
-      IonCol,
-      IonCard,
-      IonCardHeader,
-      IonCardContent,
-      IonCardSubtitle,
-      IonCardTitle,
-      IonButton,
-      IonImg,
-    },
-    setup() {
-      const authService = inject<AuthService>("authService");
-      const cartService = inject<CartService>("cartService");
+    const removeFromCart = async (cartItem: CartItem) => {
+      cartService?.remove(cartItem);
+      const toast = await toastController.create({
+        message: `${cartItem.menuItem.name} was removed from the cart`,
+        duration: 2000,
+      });
+      await toast.present();
+    };
 
-      const removeFromCart = async (cartItem: CartItem) => {
-        cartService?.remove(cartItem);
+    const checkout = async () => {
+      if (authService?.isLoggedIn()) {
+        await router.push('/checkout');
+      } else {
         const toast = await toastController.create({
-          message: `${cartItem.menuItem.name} was removed from the cart`,
+          message: 'To continue with checkout, please login first in the Auth tab.',
           duration: 2000,
         });
         await toast.present();
-      };
+      }
+    };
 
-      return {
-        authService,
-        cartService,
-        removeFromCart,
-      };
-    },
-  });
+    return {
+      authService,
+      cartService,
+      removeFromCart,
+      checkout
+    };
+  },
+});
 </script>
 
 <style scoped>
-  .total-wrapper {
-    margin: 0 15px 15px 15px;
-  }
+.total-wrapper {
+  margin: 0 15px 15px 15px;
+}
 </style>
