@@ -2,18 +2,18 @@
   <ion-page>
     <ion-header>
       <ion-toolbar>
-        <ion-title>Auth</ion-title>
+        <ion-title>Profile</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
       <ion-header collapse="condense">
         <ion-toolbar>
-          <ion-title size="large">Auth</ion-title>
+          <ion-title size="large">Profile</ion-title>
         </ion-toolbar>
       </ion-header>
 
       <div class="wrapper" v-if="authService.isLoggedIn()">
-        <span>You are logged in</span>
+        <span>You are logged in as {{ authService.user.name }}</span>
         <div style="margin-top: 30px">
           <ion-button class="logout-btn" @click="logout()">Logout</ion-button>
         </div>
@@ -30,7 +30,7 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent, inject } from "vue";
+  import { defineComponent, inject, reactive, computed } from "vue";
   import {
     IonPage,
     IonHeader,

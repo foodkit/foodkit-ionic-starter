@@ -15,7 +15,7 @@
 
         <ion-tab-button tab="authTab" href="/auth">
           <ion-icon :icon="personOutline" />
-          <ion-label>Auth</ion-label>
+          <ion-label>Profile</ion-label>
         </ion-tab-button>
       </ion-tab-bar>
     </ion-tabs>
