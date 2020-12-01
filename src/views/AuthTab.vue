@@ -30,7 +30,7 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent, inject, reactive, computed } from "vue";
+  import { defineComponent, inject} from "vue";
   import {
     IonPage,
     IonHeader,
