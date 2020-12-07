@@ -4,7 +4,7 @@ import config from "@/config";
 import User from "@/models/user";
 
 export default class AuthService {
-  protected user: User | null;
+  public user: User | null;
 
   constructor(protected apiClient: ApiClient, protected storage: Storage) {}
 
