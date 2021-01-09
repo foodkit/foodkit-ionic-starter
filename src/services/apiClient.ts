@@ -10,21 +10,18 @@ export default class ApiClient {
     this.httpClient = Axios.create({
       baseURL: config.apiUrl,
     });
+    this.setupInterceptor();
   }
 
   public setToken(token?: string): ApiClient {
     this.token = token;
-    this.setupInterceptor(token);
-
     return this;
   }
 
-  protected setupInterceptor(token?: string): void {
+  protected setupInterceptor(): void {
     this.httpClient.interceptors.request.use((config: AxiosRequestConfig) => {
-      if (token) {
-        config.headers["Authorization"] = `Bearer ${token}`;
-      } else {
-        delete config.headers["Authorization"];
+      if (this.token) {
+        config.headers["Authorization"] = `Bearer ${this.token}`;
       }
       return config;
     });

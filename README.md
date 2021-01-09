@@ -4,23 +4,29 @@
 
 ## Install Node.js with NPM
 
-First, you would need to install Node.js and NPM.
-You can [download](https://nodejs.org/en/download/) it from the official Node.js website.
+If you don't have them installed already, you'll need to install Node.js and NPM.
+
+You can [download](https://nodejs.org/en/download/) from the official Node.js website.
 
 The minimum recommended version of Node.js is 14.15 and NPM 6.14 respectively.
 
 ## Install Ionic CLI
 
-The app is built using Ionic Framework, therefore you would need to install Ionic CLI to build and run the app.
-It can be [downloaded](https://ionicframework.com/docs/intro/cli) from the official Ionic website.
+The app is built using the Ionic Framework. You can install the Ionic CLI tools to simplify building and running the app.
+
+Do this with the following command:
+
+```bash
+npm install -g @ionic/cli
+```
 
 The minimum recommended version of Ionic CLI is 6.12.
 
 ### Add config parameters
 
-Before you can start the application, you need to set the configuration. These values will be specific to your developer and account and are available under the "Access tokens" page in the Admin panel:
+Before you can start the application, you need to set the configuration. These values will be specific to your developer account, and are available under the "Access tokens" page in the Admin panel:
 
-```json
+```typescript
 // in src/config.ts
 export default {
   apiUrl: "https://foodkit-api.hostname.com",
@@ -29,7 +35,7 @@ export default {
   branchId: 99999,
   clientId: "store-front-web-acmecorp",
   clientSecret: "this-is-a-token-for-calls",
-  guestToken: "this-is-a-guest-token",
+  token: "this-is-a-guest-token",
   currency: {
     minorUnitExponent: 2,
     symbol: "$",

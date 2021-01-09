@@ -22,13 +22,14 @@ export default class AuthService {
         username: username,
         password: password,
       });
-
+      
       this.setAuthState(response.data.access_token);
 
       this.user = await this.currentUser();
 
       return true;
     } catch (error) {
+      console.error('error logging in', error);
       this.user = null;
       return false;
     }
@@ -42,7 +43,7 @@ export default class AuthService {
     password: string
   ): Promise<boolean> {
     try {
-      this.apiClient.setToken(config.guestToken);
+      this.apiClient.setToken(config.token);
 
       await this.apiClient.post("/v1/storefront/customers", {
         email,
@@ -96,18 +97,17 @@ export default class AuthService {
   }
 
   public getAccessToken(): string | null {
-    return this.storage.getItem("foodkit:access_token");
+    const accessToken = this.storage.getItem("foodkit:access_token");
+    return accessToken;
   }
 
   protected clearAuthState(): AuthService {
     this.storage.removeItem("foodkit:access_token");
-
     return this;
   }
 
   protected setAuthState(accessToken: string): AuthService {
     this.storage.setItem("foodkit:access_token", accessToken);
-
     return this;
   }
 }

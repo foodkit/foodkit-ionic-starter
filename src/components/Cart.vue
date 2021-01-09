@@ -104,7 +104,7 @@ export default defineComponent({
         await router.push('/checkout');
       } else {
         const toast = await toastController.create({
-          message: 'To continue with checkout, please login first in the Auth tab.',
+          message: 'Before you can checkout you must create an account or login from the "Profile" tab.',
           duration: 2000,
         });
         await toast.present();

@@ -44,25 +44,24 @@
 
       const stateFormatted = computed(() => {
         switch (state.value) {
+          case "unverified":
           case "pending":
-            return "Pending";
+            return "Awaiting approval...";
           case "vendor-accepted":
-            return "Accepted by vendor";
           case "driver-accepted":
-            return "Accepted by driver";
+            return "Food is being cooked";
           case "dispatched":
-            return "Dispatched";
+            return "On the way";
           case "completed":
             return "Completed";
-          case "ginja-cancelled":
-            return "Cancelled by Foodkit";
-          case "vendor-cancelled":
-            return "Cancelled by vendor";
+          case "cancelled":
+            return "Order Cancelled";
         }
       });
 
       const stateImg = computed(() => {
         switch (state.value) {
+          case "unverified":
           case "pending":
           case "vendor-accepted":
             return "/assets/order-in-progress.svg";
@@ -71,8 +70,7 @@
             return "/assets/order-on-the-way.svg";
           case "completed":
             return "/assets/order-completed.svg";
-          case "ginja-cancelled":
-          case "vendor-cancelled":
+          case "cancelled":
             return "/assets/order-cancelled.svg";
         }
       });

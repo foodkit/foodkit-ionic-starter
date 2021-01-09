@@ -90,15 +90,19 @@
         );
 
         if (isRegistered) {
+          await authService?.login(
+            form.value.email,
+            form.value.password
+          );
           modalController.dismiss();
           const toast = await toastController.create({
-            message: "Registration successful",
+            message: "Logged in",
             duration: 2000,
           });
           await toast.present();
         } else {
           const toast = await toastController.create({
-            message: "Error occurred",
+            message: "An error occurred while trying to register your account.",
             duration: 2000,
           });
           await toast.present();
